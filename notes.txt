@@ -1,3 +1,57 @@
 step1:npx create-react-app my-app --template cra-template-pwa
 step2:npm install
 to create serviceworker.js in default
+problem:
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+//Layouts
+import HomeLayoutRoute from "./components/layouts/HomeLayout";
+
+//components
+import Home from './components/Home';
+//import Dashboard from './components/Dash';
+
+// Routing
+import PrivateRoute from "./components/routing/PrivateRoute";
+
+// Screens
+import PrivateScreen from "./components/loginscreens/PrivateScreen";
+import LoginScreen from "./components/loginscreens/LoginScreen";
+import RegisterScreen from "./components/loginscreens/RegisterScreen";
+import ForgotPasswordScreen from "./components/loginscreens/ForgotPasswordScreen";
+import ResetPasswordScreen from "./components/loginscreens/ResetPasswordScreen";
+
+const App = () => {
+  return (
+    <BrowserRouter>
+      <div className="app">
+        <Routes> 
+          <HomeLayoutRoute path="/" element={<Home />} />
+          <PrivateRoute path="/" element={<PrivateScreen/>} />
+          <Route path="/login" element={<LoginScreen/>} />
+          <Route path="/register" element={<RegisterScreen/>} />
+          <Route path="/forgotpassword" element={<ForgotPasswordScreen/>}/>
+          <Route path="/passwordreset/:resetToken" element={<ResetPasswordScreen/>}/>
+        </Routes>
+      </div>
+    </BrowserRouter>
+  );
+};
+
+export default App;
+This is my App.js file This is the Error : Error: You cannot render a inside another . You should never have more than one in your app.
+
+This code works with React-Router-Dom Version 5, But When I move to React-Router-Dom version 6 this error came.
+
+Solution:
+ReactDOM.render(
+  <React.StrictMode>
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={ <App /> }>
+        </Route>
+      </Routes>
+    </BrowserRouter>
+  </React.StrictMode>,
+  document.getElementById('root')
+);
